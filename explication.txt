@@ -1,0 +1,9 @@
+Explication des lignes de code :
+
+Lignes 1 à 3 : Importation des packages nécessaires et point d'entrée du programme.
+Lignes 5 à 13 : La classe TaskReminderApp est un widget racine qui définit l'application Flutter. Le widget MaterialApp est utilisé pour fournir une configuration générale à l'application.
+Ligne 7 : La classe TaskReminderScreen est un StatefulWidget qui gère l'état de l'application.
+Lignes 9 à 12 : Le widget Scaffold définit le squelette de base de l'application, y compris la barre d'applications et le contenu principal.
+Lignes 22 à 27 : Le bouton "Ajouter une tâche" est créé à l'aide du widget ElevatedButton. Lorsqu'il est pressé, il ajoute une nouvelle tâche à la liste des tâches.
+Lignes 33 à 56 : Le widget ListView.builder est utilisé pour afficher les tâches existantes. Chaque tâche est affichée dans un ListTile, avec un bouton de suppression.
+Lignes 50 à 54 : Lorsque le bouton de suppression est pressé, la tâche correspondante est supprimée de la liste des tâches.
