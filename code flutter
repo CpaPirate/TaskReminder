@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(TaskReminderApp());
+
+class TaskReminderApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: TaskReminderScreen(),
+    );
+  }
+}
+
+class TaskReminderScreen extends StatefulWidget {
+  @override
+  _TaskReminderScreenState createState() => _TaskReminderScreenState();
+}
+
+class _TaskReminderScreenState extends State<TaskReminderScreen> {
+  List<String> tasks = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Task Reminder'),
+      ),
+      body: Column(
+        children: [
+          Text(
+            'Bienvenue',
+            style: TextStyle(fontSize: 24),
+          ),
+          SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                tasks.add('Nouvelle tâche');
+              });
+            },
+            child: Text('Ajouter une tâche'),
+          ),
+          SizedBox(height: 16),
+          Expanded(
+            child: ListView.builder(
+              itemCount: tasks.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(tasks[index]),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      setState(() {
+                        tasks.removeAt(index);
+                      });
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
