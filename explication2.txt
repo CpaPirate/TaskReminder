@@ -1,0 +1,89 @@
+- class Task {
+  String name;
+  String description;
+
+  Task(this.name, this.description);
+}
+Ajout de la classe "Task" qui définit 2 chaînes de caractères : name et description.
+
+
+
+- List<Task> tasks = []; 
+Plutôt que de stocker des chaînes (String) dans la liste, nous stockons maintenant des objets Task dans la liste.
+
+
+
+- ElevatedButton(
+  onPressed: () {
+    _showAddTaskDialog();
+  },
+  child: Text('Ajouter une tâche'),
+)
+Avant, lorsqu'on appuyer sur le bouton "ajouter tâche", cela créer une tâches "nouvelle tâches". Maintenant, cela lance la fonction "_showAddTaskDialog()".
+
+
+
+- void _showAddTaskDialog() {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Ajouter une tâche'),
+        content: Column(
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: InputDecoration(labelText: 'Nom de la tâche'),
+            ),
+            TextField(
+              controller: descriptionController,
+              decoration: InputDecoration(labelText: 'Description de la tâche'),
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Annuler'),
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                tasks.add(Task(nameController.text, descriptionController.text));
+              });
+              Navigator.of(context).pop();
+            },
+            child: Text('Ajouter'),
+          ),
+        ],
+      );
+    },
+  );
+}
+Cette fonction affiche un menu avec deux champs de texte pour le nom et la description de la tâche. Lorsque l'utilisateur appuie sur "Ajouter", un nouveau objet de Task est créée avec les valeurs saisies et ajoutée à la liste tasks qu'on a décrite précédemment.
+
+
+
+ListView.builder(
+  itemCount: tasks.length,
+  itemBuilder: (context, index) {
+    return ListTile(
+      title: Text(tasks[index].name),
+      subtitle: Text(tasks[index].description),
+      trailing: IconButton(
+        icon: Icon(Icons.delete),
+        onPressed: () {
+          setState(() {
+            tasks.removeAt(index);
+          });
+        },
+      ),
+    );
+  },
+)
+Cette fonction modifie comment sont affiché les tâches dans le "menu principal", affichant ainsi leur nom et leurs description s'il y en a une.
