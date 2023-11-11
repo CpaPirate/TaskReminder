@@ -1,0 +1,114 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(TaskReminderApp());
+
+class TaskReminderApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: TaskReminderScreen(),
+    );
+  }
+}
+
+class Task {
+  String name;
+  String description;
+
+  Task(this.name, this.description);
+}
+
+class TaskReminderScreen extends StatefulWidget {
+  @override
+  _TaskReminderScreenState createState() => _TaskReminderScreenState();
+}
+
+class _TaskReminderScreenState extends State<TaskReminderScreen> {
+  List<Task> tasks = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Task Reminder'),
+      ),
+      body: Column(
+        children: [
+          Text(
+            'Bienvenue',
+            style: TextStyle(fontSize: 24),
+          ),
+          SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {
+              _showAddTaskDialog();
+            },
+            child: Text('Ajouter une tâche'),
+          ),
+          SizedBox(height: 16),
+          Expanded(
+            child: ListView.builder(
+              itemCount: tasks.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(tasks[index].name),
+                  subtitle: Text(tasks[index].description),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      setState(() {
+                        tasks.removeAt(index);
+                      });
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+void _showAddTaskDialog() {
+    TextEditingController nameController = TextEditingController();
+    TextEditingController descriptionController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Ajouter une tâche'),
+          content: Column(
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(labelText: 'Nom de la tâche'),
+              ),
+              TextField(
+                controller: descriptionController,
+                decoration: InputDecoration(labelText: 'Description de la tâche'),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Annuler'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  tasks.add(Task(nameController.text, descriptionController.text));
+                });
+                Navigator.of(context).pop();
+              },
+              child: Text('Ajouter'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
