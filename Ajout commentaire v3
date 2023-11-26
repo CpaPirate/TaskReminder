@@ -30,18 +30,28 @@ class MyProfileWidget extends StatefulWidget {
   _MyProfileWidgetState createState() => _MyProfileWidgetState();
 }
 
-class _MyProfileWidgetState extends State<MyProfileWidget>
-    with TickerProviderStateMixin {
+// La classe `_MyProfileWidgetState` représente l'état interne du widget MyProfileWidget.
+// Elle utilise le mixin TickerProviderStateMixin pour fournir des objets Ticker nécessaires à l'animation.
+
+class _MyProfileWidgetState extends State<MyProfileWidget> with TickerProviderStateMixin {
+  // Instance du modèle MyProfileModel utilisé par cet état.
   late MyProfileModel _model;
 
+  // Clé globale pour accéder à l'état du Scaffold (structure de l'interface) associé à ce widget.
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  // Variables de déclenchement pour contrôler l'exécution d'animations spécifiques.
   var hasContainerTriggered1 = false;
   var hasContainerTriggered2 = false;
+
+  // Map contenant les informations sur les animations liées à des conteneurs.
   final animationsMap = {
+    // Animation associée à l'action de déclenchement 1.
     'containerOnActionTriggerAnimation1': AnimationInfo(
       trigger: AnimationTrigger.onActionTrigger,
       applyInitialState: false,
       effects: [
+        // Effet de déplacement du conteneur avec une courbe de lissage et une durée spécifiées.
         MoveEffect(
           curve: Curves.easeInOut,
           delay: 0.ms,
@@ -51,10 +61,13 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
         ),
       ],
     ),
+    
+    // Animation associée à l'action de déclenchement 2.
     'containerOnActionTriggerAnimation2': AnimationInfo(
       trigger: AnimationTrigger.onActionTrigger,
       applyInitialState: false,
       effects: [
+        // Effet de déplacement du conteneur avec une courbe de lissage et une durée spécifiées.
         MoveEffect(
           curve: Curves.easeInOut,
           delay: 0.ms,
@@ -65,171 +78,190 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
       ],
     ),
   };
+}
 
-  @override
-  void initState() {
-    super.initState();
-    _model = createModel(context, () => MyProfileModel());
 
-    setupAnimations(
-      animationsMap.values.where((anim) =>
-          anim.trigger == AnimationTrigger.onActionTrigger ||
-          !anim.applyInitialState),
-      this,
+  // Méthode appelée lors de la création de l'état du widget.
+@override
+void initState() {
+  super.initState();
+
+  // Initialisation du modèle associé à cet état en utilisant la fonction de création spécifiée.
+  _model = createModel(context, () => MyProfileModel());
+
+  // Configuration des animations en utilisant la fonction setupAnimations
+  // pour les animations déclenchées par une action ou celles qui ne nécessitent pas un état initial particulier.
+  setupAnimations(
+    animationsMap.values.where((anim) =>
+        anim.trigger == AnimationTrigger.onActionTrigger ||
+        !anim.applyInitialState),
+    this,
+  );
+}
+
+// Méthode appelée lors de la suppression de l'état du widget.
+@override
+void dispose() {
+  // Libération des ressources associées au modèle.
+  _model.dispose();
+
+  super.dispose();
+}
+
+// Méthode de construction du widget.
+@override
+Widget build(BuildContext context) {
+  // Mise en place du style de l'interface système pour la barre d'état si l'application est sur iOS.
+  if (isiOS) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarBrightness: Theme.of(context).brightness,
+        systemStatusBarContrastEnforced: true,
+      ),
     );
   }
 
-  @override
-  void dispose() {
-    _model.dispose();
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (isiOS) {
-      SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-          statusBarBrightness: Theme.of(context).brightness,
-          systemStatusBarContrastEnforced: true,
-        ),
-      );
-    }
-
-    return StreamBuilder<UsersRecord>(
-      stream: UsersRecord.getDocument(currentUserReference!),
-      builder: (context, snapshot) {
-        // Customize what your widget looks like when it's loading.
-        if (!snapshot.hasData) {
-          return Scaffold(
-            backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-            body: Center(
-              child: SizedBox(
-                width: 50,
-                height: 50,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    FlutterFlowTheme.of(context).primary,
-                  ),
+  // Utilisation d'un StreamBuilder pour reconstruire le widget en fonction des données en continu (stream).
+  return StreamBuilder<UsersRecord>(
+    stream: UsersRecord.getDocument(currentUserReference!),
+    builder: (context, snapshot) {
+      // Personnalisation de l'apparence du widget en cours de chargement.
+      if (!snapshot.hasData) {
+        return Scaffold(
+          backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+          body: Center(
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  FlutterFlowTheme.of(context).primary,
                 ),
               ),
             ),
-          );
-        }
-        final myProfileUsersRecord = snapshot.data!;
-        return Scaffold(
-          key: scaffoldKey,
-          backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-          appBar: AppBar(
-            backgroundColor: FlutterFlowTheme.of(context).primary,
-            automaticallyImplyLeading: false,
-            title: Text(
-              'Welcome',
-              style: FlutterFlowTheme.of(context).displaySmall.override(
-                    fontFamily: 'Outfit',
-                    color: FlutterFlowTheme.of(context).white,
-                  ),
-            ),
-            actions: [],
-            centerTitle: false,
-            elevation: 0,
           ),
-          body: SafeArea(
-            top: true,
+        );
+      }
+    },
+  );
+}
+
+        // Obtention de l'enregistrement de l'utilisateur à partir des données du snapshot.
+final myProfileUsersRecord = snapshot.data!;
+
+// Construction de l'interface utilisateur avec un Scaffold, AppBar et un corps sécurisé (SafeArea).
+return Scaffold(
+  key: scaffoldKey,
+  backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+  appBar: AppBar(
+    backgroundColor: FlutterFlowTheme.of(context).primary,
+    automaticallyImplyLeading: false,
+    title: Text(
+      'Bienvenue',
+      style: FlutterFlowTheme.of(context).displaySmall.override(
+        fontFamily: 'Outfit',
+        color: FlutterFlowTheme.of(context).white,
+      ),
+    ),
+    actions: [],
+    centerTitle: false,
+    elevation: 0,
+  ),
+  body: SafeArea(
+    top: true,
+    child: Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        // Zone d'affichage principale, utilisant un Expanded pour prendre tout l'espace disponible.
+        Expanded(
+          child: Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 100),
             child: Column(
               mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 100),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Container(
-                              width: MediaQuery.sizeOf(context).width,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context).primary,
-                                border: Border.all(
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  width: 1,
-                                ),
-                              ),
-                              child: Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
-                                child: Text(
-                                  myProfileUsersRecord.displayName,
-                                  style: FlutterFlowTheme.of(context)
-                                      .titleMedium
-                                      .override(
-                                        fontFamily: 'Manrope',
-                                        color:
-                                            FlutterFlowTheme.of(context).white,
-                                      ),
-                                ),
-                              ),
-                            ),
-                          ],
+                // Affichage du nom de l'utilisateur dans une barre stylisée.
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).primary,
+                        border: Border.all(
+                          color: FlutterFlowTheme.of(context).primary,
+                          width: 1,
                         ),
-                        Container(
-                          width: MediaQuery.sizeOf(context).width,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 5,
-                                color: Color(0x230E151B),
-                                offset: Offset(0, 2),
-                              )
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    16, 12, 0, 0),
-                                child: Text(
-                                  'Infos sur le compte',
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                        child: Text(
+                          myProfileUsersRecord.displayName,
+                          style: FlutterFlowTheme.of(context)
+                              .titleMedium
+                              .override(
+                                fontFamily: 'Manrope',
+                                color: FlutterFlowTheme.of(context).white,
                               ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-                                child: InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    context.pushNamed(
-                                      'EditProfile',
-                                      queryParameters: {
-                                        'displayName': serializeParam(
-                                          myProfileUsersRecord,
-                                          ParamType.Document,
-                                        ),
-                                        'email': serializeParam(
-                                          myProfileUsersRecord,
-                                          ParamType.Document,
-                                        ),
-                                      }.withoutNulls,
-                                      extra: <String, dynamic>{
-                                        'displayName': myProfileUsersRecord,
-                                        'email': myProfileUsersRecord,
-                                      },
-                                    );
-                                  },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                
+                // Section d'informations sur le compte avec une stylisation spécifique.
+                Container(
+                  width: MediaQuery.sizeOf(context).width,
+                  decoration: BoxDecoration(
+                    color:
+                        FlutterFlowTheme.of(context).secondaryBackground,
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 5,
+                        color: Color(0x230E151B),
+                        offset: Offset(0, 2),
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Titre de la section d'informations.
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(16, 12, 0, 0),
+                        child: Text(
+                          'Infos sur le compte',
+                          style: FlutterFlowTheme.of(context).bodySmall,
+                        ),
+                      ),
+                      
+                      // Zone cliquable permettant de modifier le profil de l'utilisateur.
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                        child: InkWell(
+                          // Navigation vers l'écran de modification de profil lors du clic.
+                          onTap: () async {
+                            context.pushNamed(
+                              'EditProfile',
+                              queryParameters: {
+                                'displayName': serializeParam(
+                                  myProfileUsersRecord,
+                                  ParamType.Document,
+                                ),
+                                'email': serializeParam(
+                                  myProfileUsersRecord,
+                                  ParamType.Document,
+                                ),
+                              }.withoutNulls,
+                              extra: <String, dynamic>{
+                                'displayName': myProfileUsersRecord,
+                                'email': myProfileUsersRecord,
+                              },
+                            );
+                          },
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -275,70 +307,109 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                                 onTap: () async {
                                   context.pushNamed('ChangePassword');
                                 },
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            16, 20, 0, 20),
-                                        child: Text(
-                                          'Changer mot de passe',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 12, 0),
-                                      child: Icon(
-                                        Icons.arrow_forward_ios,
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
-                                        size: 24,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(
-                                height: 2,
-                                thickness: 1,
-                                indent: 0,
-                                endIndent: 0,
-                                color: FlutterFlowTheme.of(context).lineColor,
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    if (!(Theme.of(context).brightness ==
-                                        Brightness.dark))
-                                      InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () async {
-                                          setDarkModeSetting(
-                                              context, ThemeMode.dark);
-                                          if (animationsMap[
-                                                  'containerOnActionTriggerAnimation2'] !=
-                                              null) {
-                                            setState(() =>
-                                                hasContainerTriggered2 = true);
-                                            SchedulerBinding.instance
-                                                .addPostFrameCallback((_) async =>
-                                                    await animationsMap[
-                                                            'containerOnActionTriggerAnimation2']!
-                                                        .controller
-                                                        .forward(from: 0.0));
-                                          }
-                                        },
+  ///Contenu de la ligne, comprenant le texte "Editer le profil" et une icône de flèche vers la droite.
+  child: Row(
+    mainAxisSize: MainAxisSize.max,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Expanded(
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(16, 20, 0, 20),
+          child: Text(
+            'Editer le profil ',
+            style: FlutterFlowTheme.of(context).bodyMedium,
+          ),
+        ),
+      ),
+      Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
+        child: Icon(
+          Icons.arrow_forward_ios,
+          color: FlutterFlowTheme.of(context).secondaryText,
+          size: 24,
+        ),
+      ),
+    ],
+  ),
+),
+
+// Ligne de séparation visuelle (divider) entre les options.
+Divider(
+  height: 2,
+  thickness: 1,
+  indent: 0,
+  endIndent: 0,
+  color: FlutterFlowTheme.of(context).lineColor,
+),
+
+// Zone cliquable pour naviguer vers l'écran de changement de mot de passe.
+InkWell(
+  splashColor: Colors.transparent,
+  focusColor: Colors.transparent,
+  hoverColor: Colors.transparent,
+  highlightColor: Colors.transparent,
+  onTap: () async {
+    // Navigation vers l'écran de changement de mot de passe.
+    context.pushNamed('ChangePassword');
+  },
+  // Contenu de la ligne, comprenant le texte "Changer mot de passe" et une icône de flèche vers la droite.
+  child: Row(
+    mainAxisSize: MainAxisSize.max,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Expanded(
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(16, 20, 0, 20),
+          child: Text(
+            'Changer mot de passe',
+            style: FlutterFlowTheme.of(context).bodyMedium,
+          ),
+        ),
+      ),
+      Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
+        child: Icon(
+          Icons.arrow_forward_ios,
+          color: FlutterFlowTheme.of(context).secondaryText,
+          size: 24,
+        ),
+      ),
+    ],
+  ),
+),
+
+// Ligne de séparation visuelle (divider) entre les options.
+Divider(
+  height: 2,
+  thickness: 1,
+  indent: 0,
+  endIndent: 0,
+  color: FlutterFlowTheme.of(context).lineColor,
+),
+
+// Section pour activer le mode sombre avec animation associée.
+Padding(
+  padding: EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
+  child: Column(
+    mainAxisSize: MainAxisSize.max,
+    children: [
+      // Zone cliquable pour activer le mode sombre.
+      InkWell(
+        splashColor: Colors.transparent,
+        focusColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onTap: () async {
+          // Activation du mode sombre et déclenchement de l'animation associée.
+          setDarkModeSetting(context, ThemeMode.dark);
+          if (animationsMap['containerOnActionTriggerAnimation2'] != null) {
+            setState(() => hasContainerTriggered2 = true);
+            SchedulerBinding.instance.addPostFrameCallback((_) async =>
+                await animationsMap['containerOnActionTriggerAnimation2']!
+                    .controller
+                    .forward(from: 0.0));
+          }
+        },
                                         child: Container(
                                           width:
                                               MediaQuery.sizeOf(context).width,
