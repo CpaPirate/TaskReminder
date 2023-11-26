@@ -410,293 +410,222 @@ Padding(
                     .forward(from: 0.0));
           }
         },
-                                        child: Container(
-                                          width:
-                                              MediaQuery.sizeOf(context).width,
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    16, 12, 16, 12),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  'Mode sombre',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium,
-                                                ),
-                                                Container(
-                                                  width: 80,
-                                                  height: 40,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  ),
-                                                  child: Stack(
-                                                    alignment:
-                                                        AlignmentDirectional(
-                                                            0, 0),
-                                                    children: [
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0.95, 0.00),
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(0,
-                                                                      0, 8, 0),
-                                                          child: Icon(
-                                                            Icons.nights_stay,
-                                                            color: Color(
-                                                                0xFF95A1AC),
-                                                            size: 20,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                -0.85, 0.00),
-                                                        child: Container(
-                                                          width: 36,
-                                                          height: 36,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondaryBackground,
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                blurRadius: 4,
-                                                                color: Color(
-                                                                    0x430B0D0F),
-                                                                offset: Offset(
-                                                                    0, 2),
-                                                              )
-                                                            ],
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                          ),
-                                                        ).animateOnActionTrigger(
-                                                            animationsMap[
-                                                                'containerOnActionTriggerAnimation1']!,
-                                                            hasBeenTriggered:
-                                                                hasContainerTriggered1),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    if (Theme.of(context).brightness ==
-                                        Brightness.dark)
-                                      InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () async {
-                                          setDarkModeSetting(
-                                              context, ThemeMode.light);
-                                          if (animationsMap[
-                                                  'containerOnActionTriggerAnimation1'] !=
-                                              null) {
-                                            setState(() =>
-                                                hasContainerTriggered1 = true);
-                                            SchedulerBinding.instance
-                                                .addPostFrameCallback((_) async =>
-                                                    await animationsMap[
-                                                            'containerOnActionTriggerAnimation1']!
-                                                        .controller
-                                                        .forward(from: 0.0));
-                                          }
-                                        },
-                                        child: Container(
-                                          width:
-                                              MediaQuery.sizeOf(context).width,
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    16, 12, 16, 12),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  'Switch to Light Mode',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Outfit',
-                                                        color: Colors.white,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                ),
-                                                Container(
-                                                  width: 80,
-                                                  height: 40,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20),
-                                                  ),
-                                                  child: Stack(
-                                                    alignment:
-                                                        AlignmentDirectional(
-                                                            0, 0),
-                                                    children: [
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                -0.90, 0.00),
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(8,
-                                                                      2, 0, 0),
-                                                          child: Icon(
-                                                            Icons
-                                                                .wb_sunny_rounded,
-                                                            color: Color(
-                                                                0xFF95A1AC),
-                                                            size: 24,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0.90, 0.00),
-                                                        child: Container(
-                                                          width: 36,
-                                                          height: 36,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondaryBackground,
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                blurRadius: 4,
-                                                                color: Color(
-                                                                    0x430B0D0F),
-                                                                offset: Offset(
-                                                                    0, 2),
-                                                              )
-                                                            ],
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30),
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                          ),
-                                                        ).animateOnActionTrigger(
-                                                            animationsMap[
-                                                                'containerOnActionTriggerAnimation2']!,
-                                                            hasBeenTriggered:
-                                                                hasContainerTriggered2),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 0, 44),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 0, 0, 16),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      GoRouter.of(context).prepareAuthEvent();
-                                      await authManager.signOut();
-                                      GoRouter.of(context)
-                                          .clearRedirectLocation();
+// Conteneur pour afficher et permettre la modification du mode sombre.
+child: Container(
+  width: MediaQuery.sizeOf(context).width,
+  decoration: BoxDecoration(
+    color: FlutterFlowTheme.of(context).secondaryBackground,
+  ),
+  // Zone de contenu avec une rangée contenant le texte "Mode sombre" et un bouton de bascule.
+  child: Padding(
+    padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 12),
+    child: Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        // Texte indiquant l'option "Mode sombre".
+        Text(
+          'Mode sombre',
+          style: FlutterFlowTheme.of(context).bodyMedium,
+        ),
+        // Bouton de bascule avec une icône de lune et un conteneur de fond.
+        Container(
+          width: 80,
+          height: 40,
+          decoration: BoxDecoration(
+            color: FlutterFlowTheme.of(context).primaryBackground,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          // Stack pour superposer l'icône de lune et un conteneur de fond.
+          child: Stack(
+            alignment: AlignmentDirectional(0, 0),
+            children: [
+              // Icône de lune positionnée à droite.
+              Align(
+                alignment: AlignmentDirectional(0.95, 0.00),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
+                  child: Icon(
+                    Icons.nights_stay,
+                    color: Color(0xFF95A1AC),
+                    size: 20,
+                  ),
+                ),
+              ),
+              // Conteneur de fond animé en fonction du déclenchement de l'animation 1.
+              Align(
+                alignment: AlignmentDirectional(-0.85, 0.00),
+                child: Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 4,
+                        color: Color(0x430B0D0F),
+                        offset: Offset(0, 2),
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(30),
+                    shape: BoxShape.rectangle,
+                  ),
+                ).animateOnActionTrigger(
+                  animationsMap['containerOnActionTriggerAnimation1']!,
+                  // Indication que l'animation 1 a été déclenchée.
+                  hasBeenTriggered: hasContainerTriggered1,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  ),
+),
 
-                                      context.goNamedAuth(
-                                          'SplashScreen', context.mounted);
-                                    },
-                                    text: 'Deco',
-                                    options: FFButtonOptions(
-                                      width: 130,
-                                      height: 50,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0, 0, 0, 0),
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleMedium
-                                          .override(
-                                            fontFamily: 'Manrope',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                          ),
-                                      elevation: 3,
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'App Version v0.0',
-                                  textAlign: TextAlign.center,
-                                  style: FlutterFlowTheme.of(context).bodySmall,
-                                ),
+// Condition pour afficher une option supplémentaire si le mode sombre est déjà activé.
+if (Theme.of(context).brightness == Brightness.dark)
+  // Zone cliquable pour désactiver le mode sombre.
+  InkWell(
+    splashColor: Colors.transparent,
+    focusColor: Colors.transparent,
+    hoverColor: Colors.transparent,
+    highlightColor: Colors.transparent,
+    onTap: () async {
+      // Désactivation du mode sombre et déclenchement de l'animation associée.
+      setDarkModeSetting(context, ThemeMode.light);
+      if (animationsMap['containerOnActionTriggerAnimation1'] != null) {
+        setState(() => hasContainerTriggered1 = true);
+        SchedulerBinding.instance.addPostFrameCallback((_) async =>
+            await animationsMap['containerOnActionTriggerAnimation1']!
+                .controller
+                .forward(from: 0.0));
+      }
+    },
+// Partie supérieure de l'écran comprenant des options pour changer le thème (sombre ou clair).
+child: Container(
+  height: MediaQuery.sizeOf(context).height,
+  child: Column(
+    children: [
+      // Option pour basculer vers le mode clair.
+      Container(
+        width: MediaQuery.sizeOf(context).width,
+        decoration: BoxDecoration(
+          color: FlutterFlowTheme.of(context).secondaryBackground,
+        ),
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 12),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Texte indiquant l'option "Switch to Light Mode".
+              Text(
+                'Switch to Light Mode',
+                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                  fontFamily: 'Outfit',
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              // Bouton de bascule avec une icône de soleil et un conteneur de fond.
+              Container(
+                width: 80,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).primaryBackground,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Stack(
+                  alignment: AlignmentDirectional(0, 0),
+                  children: [
+                    // Icône de soleil positionnée à gauche.
+                    Align(
+                      alignment: AlignmentDirectional(-0.90, 0.00),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(8, 2, 0, 0),
+                        child: Icon(
+                          Icons.wb_sunny_rounded,
+                          color: Color(0xFF95A1AC),
+                          size: 24,
+                        ),
+                      ),
+                    ),
+                    // Conteneur de fond animé en fonction du déclenchement de l'animation 2.
+                    Align(
+                      alignment: AlignmentDirectional(0.90, 0.00),
+                      child: Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: FlutterFlowTheme.of(context).secondaryBackground,
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 4,
+                              color: Color(0x430B0D0F),
+                              offset: Offset(0, 2),
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(30),
+                          shape: BoxShape.rectangle,
+                        ),
+                      ).animateOnActionTrigger(
+                        animationsMap['containerOnActionTriggerAnimation2']!,
+                        // Indication que l'animation 2 a été déclenchée.
+                        hasBeenTriggered: hasContainerTriggered2,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      // [Reste du code pour la construction de la partie supérieure de l'écran.]
+
+// Partie inférieure de l'écran comprenant un bouton de déconnexion et l'affichage de la version de l'application.
+Container(
+  height: MediaQuery.sizeOf(context).height,
+  child: Column(
+    mainAxisSize: MainAxisSize.max,
+    mainAxisAlignment: MainAxisAlignment.end,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      // Bouton de déconnexion avec l'utilisation de la bibliothèque GoRouter.
+      Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
+        child: FFButtonWidget(
+          onPressed: () async {
+            // Préparation d'un événement d'authentification avec GoRouter.
+            GoRouter.of(context).prepareAuthEvent();
+            // Déconnexion de l'utilisateur.
+            await authManager.signOut();
+            // Effacement de la localisation de redirection avec GoRouter.
+            GoRouter.of(context).clearRedirectLocation();
+            // Navigation vers l'écran de SplashScreen après la déconnexion.
+            context.goNamedAuth('SplashScreen', context.mounted);
+          },
+          text: 'Déconnexion',
+          // Options de style pour le bouton de déconnexion.
+          options: FFButtonOptions(
+            width: 130,
+            height: 50,
+            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+            iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+            color: FlutterFlowTheme.of(context).secondaryBackground,
+            textStyle: FlutterFlowTheme.of(context).titleMedium.override(
+              fontFamily: 'Manrope',
+              color: FlutterFlowTheme.of(context).primaryText,
+            ),
+            elevation: 3,
+            borderSide: BorderSide(
+              color: Colors.transparent,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(8),
                               ],
                             ),
                           ),
