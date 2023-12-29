@@ -1,0 +1,265 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import 'add_task_model.dart';
+export 'add_task_model.dart';
+
+class AddTaskWidget extends StatefulWidget {
+  const AddTaskWidget({
+    Key? key,
+    required this.iDcomponent,
+    required this.categName,
+  }) : super(key: key);
+
+  final DocumentReference? iDcomponent;
+  final String? categName;
+
+  @override
+  _AddTaskWidgetState createState() => _AddTaskWidgetState();
+}
+
+class _AddTaskWidgetState extends State<AddTaskWidget> {
+  late AddTaskModel _model;
+
+  @override
+  void setState(VoidCallback callback) {
+    super.setState(callback);
+    _model.onUpdate();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => AddTaskModel());
+
+    _model.addTaskNameController ??= TextEditingController();
+    _model.addTaskNameFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _model.maybeDispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
+    return Align(
+      alignment: AlignmentDirectional(0, 1),
+      child: Material(
+        color: Colors.transparent,
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(0),
+            bottomRight: Radius.circular(0),
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        child: Container(
+          height: 220,
+          decoration: BoxDecoration(
+            color: FlutterFlowTheme.of(context).secondaryBackground,
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 4,
+                color: Color(0x33000000),
+                offset: Offset(0, 2),
+              )
+            ],
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(0),
+              bottomRight: Radius.circular(0),
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+            border: Border.all(
+              width: 2,
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Align(
+                  alignment: AlignmentDirectional(-1, 0),
+                  child: FlutterFlowIconButton(
+                    borderRadius: 24,
+                    borderWidth: 2,
+                    buttonSize: 40,
+                    fillColor: FlutterFlowTheme.of(context).tertiary,
+                    icon: Icon(
+                      Icons.arrow_back_ios_outlined,
+                      color: FlutterFlowTheme.of(context).primaryBackground,
+                      size: 20,
+                    ),
+                    onPressed: () async {
+                      context.safePop();
+                    },
+                  ),
+                ),
+                TextFormField(
+                  controller: _model.addTaskNameController,
+                  focusNode: _model.addTaskNameFocusNode,
+                  autofocus: true,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    labelText: 'Name',
+                    labelStyle: FlutterFlowTheme.of(context).labelMedium,
+                    hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: FlutterFlowTheme.of(context).alternate,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: FlutterFlowTheme.of(context).primary,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: FlutterFlowTheme.of(context).error,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: FlutterFlowTheme.of(context).error,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  style: FlutterFlowTheme.of(context).bodyMedium,
+                  validator: _model.addTaskNameControllerValidator
+                      .asValidator(context),
+                ),
+                FFButtonWidget(
+                  onPressed: () async {
+                    final _datePickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: getCurrentTimestamp,
+                      firstDate: getCurrentTimestamp,
+                      lastDate: DateTime(2050),
+                      builder: (context, child) {
+                        return wrapInMaterialDatePickerTheme(
+                          context,
+                          child!,
+                          headerBackgroundColor:
+                              FlutterFlowTheme.of(context).primary,
+                          headerForegroundColor:
+                              FlutterFlowTheme.of(context).info,
+                          headerTextStyle: FlutterFlowTheme.of(context)
+                              .headlineLarge
+                              .override(
+                                fontFamily: 'Outfit',
+                                fontSize: 32,
+                                fontWeight: FontWeight.w600,
+                              ),
+                          pickerBackgroundColor:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          pickerForegroundColor:
+                              FlutterFlowTheme.of(context).primaryText,
+                          selectedDateTimeBackgroundColor:
+                              FlutterFlowTheme.of(context).primary,
+                          selectedDateTimeForegroundColor:
+                              FlutterFlowTheme.of(context).info,
+                          actionButtonForegroundColor:
+                              FlutterFlowTheme.of(context).primaryText,
+                          iconSize: 24,
+                        );
+                      },
+                    );
+
+                    if (_datePickedDate != null) {
+                      safeSetState(() {
+                        _model.datePicked = DateTime(
+                          _datePickedDate.year,
+                          _datePickedDate.month,
+                          _datePickedDate.day,
+                        );
+                      });
+                    }
+                  },
+                  text: 'Date\n',
+                  options: FFButtonOptions(
+                    width: double.infinity,
+                    height: 40,
+                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                    color: FlutterFlowTheme.of(context).primary,
+                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                          fontFamily: 'Readex Pro',
+                          color: Colors.white,
+                        ),
+                    elevation: 3,
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                FFButtonWidget(
+                  onPressed: () async {
+                    await TasksRecord.createDoc(widget.iDcomponent!)
+                        .set(createTasksRecordData(
+                      name: _model.addTaskNameController.text,
+                      ts: _model.datePicked,
+                      done: false,
+                      important: false,
+                      owner: currentUserReference,
+                      categoryName: widget.categName,
+                    ));
+                    Navigator.pop(context);
+                  },
+                  text: 'Add Task',
+                  options: FFButtonOptions(
+                    height: 40,
+                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                    color: FlutterFlowTheme.of(context).success,
+                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                          fontFamily: 'Readex Pro',
+                          color: Colors.white,
+                        ),
+                    elevation: 3,
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ].divide(SizedBox(height: 5)),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
